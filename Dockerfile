@@ -1,9 +1,10 @@
 FROM alpine:latest
 
-# install iperf3 and create non-root user
+# Install iperf3 and create non-root user
 RUN apk add --no-cache iperf3
 RUN adduser -S iperf
 
+# Switch to non-root user
 USER iperf
 
 # Expose the default iperf3 server ports
