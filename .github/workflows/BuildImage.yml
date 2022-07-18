@@ -4,6 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
   ENDPOINT: "weberphilipp/docker-iperf3"
+  BRANCH: "master"
 
 jobs:
   build:
