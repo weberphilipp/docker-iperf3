@@ -1,17 +1,14 @@
-FROM alpine:3.14.6
-#Current alpine:latest has some vulnerabilities, 3.14.6 has none
-#FROM alpine:3.14.6
-
-LABEL maintainer="Michel Labbe"
+FROM alpine:latest
 
 # install iperf3 and create non-root user
-RUN apk add --no-cache iperf3 \
-  && adduser -S iperf
+RUN apk add --no-cache iperf3
+RUN adduser -S iperf
 
 USER iperf
-    
+
 # Expose the default iperf3 server ports
-EXPOSE 5201/tcp 5201/udp
+EXPOSE 5201/tcp
+EXPOSE 5201/udp
 
 # entrypoint allows you to pass your arguments to the container at runtime
 # very similar to a binary you would run. For example, in the following
