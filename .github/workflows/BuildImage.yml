@@ -3,8 +3,7 @@ name: Build Image
 on: [push, pull_request, workflow_dispatch]
 
 env:
-  ENDPOINT: "weberphilipp/iperf3"
-  BRANCH: "master"
+  ENDPOINT: "weberphilipp/docker-iperf3"
 
 jobs:
   build:
@@ -51,7 +50,7 @@ jobs:
         name: Build and Push Image to GitHub Container Registry
         if: ${{ github.ref == format('refs/heads/{0}', env.BRANCH) && env.CR_USER && env.CR_PAT && env.ENDPOINT != 'user/endpoint' }}
         run: |
-          docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm --tag ghcr.io/${ENDPOINT}:${{ github.sha }} .
+          docker buildx build --pull --push --no-cache --platform linux/amd64,linux/arm64,linux/arm --tag ghcr.io/${ENDPOINT}:${{ github.sha }} --tag ghcr.io/${ENDPOINT}:latest .
       -
         name: Login to DockerHub
         if: ${{ github.ref == format('refs/heads/{0}', env.BRANCH) && env.DOCKERUSER && env.DOCKERPASS && env.ENDPOINT != 'user/endpoint' }}
@@ -61,4 +60,4 @@ jobs:
         name: Build and Push Image to DockerHub
         if: ${{ github.ref == format('refs/heads/{0}', env.BRANCH) && env.DOCKERUSER && env.DOCKERPASS && env.ENDPOINT != 'user/endpoint' }}
         run: |
-          docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm --tag ${ENDPOINT}:${{ github.sha }} .
+          docker buildx build --pull --push --no-cache --platform linux/amd64,linux/arm64,linux/arm --tag ${ENDPOINT}:${{ github.sha }} --tag ${ENDPOINT}:latest .
